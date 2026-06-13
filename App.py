@@ -8,19 +8,22 @@ st.set_page_config(page_title="2026 World Cup Pool Hub", layout="wide", page_ico
 # -------------------------------------------------------------
 # Replace this with your actual public "Anyone with link can view" Google Sheet URL
 SHEET_URL = "https://docs.google.com/spreadsheets/d/10ROPQBPSBo-gsLvla_KkRNHqbzjxF1RTrnODUnCXiMI/edit?usp=drivesdk"
-
 def load_data():
     try:
-        # Convert standard sharing URL to a direct CSV export URL
-        csv_url_draws = SHEET_URL.replace("/edit?usp=sharing", "/gviz/tq?tqx=out:csv&sheet=Draws")
-        csv_url_draws = pd.read_csv(csv_url_draws)
-
-      
+        # 1. Clean the end of your specific Google Sheet link to allow tab switching
+        clean_url = SHEET_URL.split("/edit")[0]
+        
+        # 2. Build the correct direct download links for BOTH of your tabs
+        csv_url_draws = f"{clean_url}/gviz/tq?tqx=out:csv&sheet=Draws"
+        csv_url_standings = f"{clean_url}/gviz/tq?tqx=out:csv&sheet=Standings"
+        
+        # 3. Read the data tables into the app
         draws = pd.read_csv(csv_url_draws)
         standings = pd.read_csv(csv_url_standings)
+        
         return draws, standings
     except Exception as e:
-        st.error("Connection Error: Please verify your Google Sheet URL is public and tab names match exactly.")
+        st.error(f"Connection Error: {e}")
         return pd.DataFrame(), pd.DataFrame()
 
 draws_df, standings_df = load_data()
