@@ -7,13 +7,14 @@ st.set_page_config(page_title="2026 World Cup Pool Hub", layout="wide", page_ico
 # 1. LIVE DATA CONNECTION (Google Sheets Integration)
 # -------------------------------------------------------------
 # Replace this with your actual public "Anyone with link can view" Google Sheet URL
-SHEET_URL = "YOUR_GOOGLE_SHEET_URL_HERE"
+SHEET_URL = "https://docs.google.com/spreadsheets/d/10ROPQBPSBo-gsLvla_KkRNHqbzjxF1RTrnODUnCXiMI/edit?usp=drivesdk"
 
 def load_data():
     try:
         # Convert standard sharing URL to a direct CSV export URL
-        csv_url_draws = SHEET_URL.https://docs.google.com/spreadsheets/d/10ROPQBPSBo-gsLvla_KkRNHqbzjxF1RTrnODUnCXiMI/edit?usp=drivesdk("/edit?usp=sharing", "/gviz/tq?tqx=out:csv&sheet=Draws")
-        csv_url_standings = SHEET_URL.https://docs.google.com/spreadsheets/d/10ROPQBPSBo-gsLvla_KkRNHqbzjxF1RTrnODUnCXiMI/edit?usp=drivesdk("/edit?usp=sharing", "/gviz/tq?tqx=out:csv&sheet=Standings")
+        csv_url_draws = SHEET_URL.replace("/edit?usp=sharing", "/gviz/tq?tqx=out:csv&sheet=Draws")
+        csv_url_draws = pd.read_csv(csv_url_draws)
+
       
         draws = pd.read_csv(csv_url_draws)
         standings = pd.read_csv(csv_url_standings)
